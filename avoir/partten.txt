@@ -1,0 +1,75 @@
+Démarre le serveur à la racine :
+
+npm start
+
+
+|---- public/
+             |---- bootstrap_icon-1.1/
+			       bootstrap-5.3.3-dist/
+				   css/   ----| 
+				               main.css
+							   profil.css
+				              
+				   font-awesome/
+                   img/ 
+				   js/   ----|
+				               profil.js
+							   main.js
+							   jquery-3.7.1.min
+							   pagination.js
+
+                   				   
+
+
+|--- server/
+             |---- config/     
+			               ----|db.js
+						   
+                   controllers/
+				               ----| authController.js
+							         dasboardController.js
+									 mainController.js
+							         
+				   
+				   middleware/  
+				              ----| checkAuth.js
+                   models/	
+				             -----| Notes.js
+							        User.js
+                   routes/
+                            -----| auth.js
+                                   dashboard.js
+                                   index.js								   
+				   
+				   
+				   
+|--- views/
+            |---- dashboard/  
+			                 boxModal.ejs
+							 index.ejs
+							 search.ejs
+							 sweetboxAlert.ejs
+							 view-note.ejs
+			
+                  layouts/
+                            dashboard.ejs
+							front-page.ejs
+							main.ejs
+				  
+                  partials/
+				            
+						  ----|	footer.ejs
+							    header.ejs
+							    header_dashboard.ejs
+                  404.ejs
+				  index.ejs
+				  login.ejs
+				  profil.ejs
+				  users.ejs
+				  
+
+|---- app.js
+
+     .env
+	 package.json
+

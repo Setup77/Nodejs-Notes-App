@@ -1,0 +1,171 @@
+<% if (GetVar==1 ) { %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const successMessage = "Votre note a été créée avec succès";
+
+      if (successMessage && successMessage !== 'null') {
+        Swal.fire({
+          title: 'Réussi!',
+          text: successMessage,
+          icon: 'success',
+          timer: 5000,
+          confirmButtonText: 'OK'
+        });
+      }
+    });
+  </script>
+
+  <% } if (GetVar==2 ) { %>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const successMessage = "Note bien supprimé";
+
+        if (successMessage && successMessage !== 'null') {
+          Swal.fire({
+            title: 'Réussi!',
+            text: successMessage,
+            icon: 'warning',
+            timer: 5000,
+            confirmButtonText: 'OK'
+          });
+        }
+      });
+    </script>
+
+    <% } if (GetVar==3 ) { %>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const successMessage = "Votre note a été mise à jour avec succès !";
+
+          if (successMessage && successMessage !== 'null') {
+            Swal.fire({
+              title: 'Réussi!',
+              text: successMessage,
+              icon: 'success',
+              timer: 5000,
+              confirmButtonText: 'OK'
+            });
+          }
+        });
+      </script>
+
+      <% } if (GetVar==4 ) { %>
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            const successMessage = "Connexion réussie 🎉";
+
+            if (successMessage && successMessage !== 'null') {
+              Swal.fire({
+                title: 'Réussi!',
+                text: successMessage,
+                icon: 'success',
+                timer: 5000,
+                confirmButtonText: 'OK'
+              });
+            }
+          });
+        </script>
+
+        <% } if (GetVar==5 ) { %>
+          <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              const successMessage = "Votre session a expiré. Veuillez vous reconnecter";
+
+              if (successMessage && successMessage !== 'null') {
+                Swal.fire({
+                  title: 'Erreur!',
+                  text: successMessage,
+                  icon: 'warning',
+                  timer: 5000,
+                  confirmButtonText: 'OK'
+                });
+              }
+            });
+          </script>
+
+          <% } if (GetVar==6 ) { %>
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                const successMessage = "Format de fichier non supporté ! Autorisés : Images, PDF, DOCX, XLS, MP4";
+
+                if (successMessage && successMessage !== 'null') {
+                  Swal.fire({
+                    title: 'Erreur!',
+                    text: successMessage,
+                    icon: 'warning',
+                    timer: 5000,
+                    confirmButtonText: 'OK'
+                  });
+                }
+              });
+            </script>
+
+            <% } if (GetVar==7 ) { %>
+              <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                  const successMessage = "Un média dépasse la limite fixée (ex: 20 Mo";
+
+                  if (successMessage && successMessage !== 'null') {
+                    Swal.fire({
+                      title: 'Erreur!',
+                      text: successMessage,
+                      icon: 'warning',
+                      timer: 5000,
+                      confirmButtonText: 'OK'
+                    });
+                  }
+                });
+              </script>
+
+              <% } if (GetVar==8 ) { %>
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    const successMessage = "trop de fichiers. Limité à 5";
+
+                    if (successMessage && successMessage !== 'null') {
+                      Swal.fire({
+                        title: 'Erreur!',
+                        text: successMessage,
+                        icon: 'warning',
+                        timer: 5000,
+                        confirmButtonText: 'OK'
+                      });
+                    }
+                  });
+                </script>
+
+                <% } if (GetVar==9 ) { %>
+                  <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                      const successMessage = "Erreurs survenue lors de l'enregistrement des fichiers";
+
+                      if (successMessage && successMessage !== 'null') {
+                        Swal.fire({
+                          title: 'Erreur!',
+                          text: successMessage,
+                          icon: 'warning',
+                          timer: 5000,
+                          confirmButtonText: 'OK'
+                        });
+                      }
+                    });
+                  </script>
+
+                  <% } if (GetVar==10 ) { %>
+                    <script>
+                      document.addEventListener('DOMContentLoaded', function () {
+                        const successMessage = "Cette note n'existe pas";
+
+                        if (successMessage && successMessage !== 'null') {
+                          Swal.fire({
+                            title: 'Erreur!',
+                            text: successMessage,
+                            icon: 'warning',
+                            timer: 5000,
+                            confirmButtonText: 'OK'
+                          });
+                        }
+                      });
+                    </script>
+
+                    <% } %>

@@ -1,0 +1,110 @@
+<div class="container py-5 login-container d-flex justify-content-center align-items-center min-vh-100">
+  <main class="w-100" style="max-width: 600px;">
+    <div class="card bg-glass login-card shadow border-0 rounded-4">
+      <div class="card-body p-4 p-md-5">
+
+        <% if (locals.errors && errors.emailExist) { %>
+          <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              Swal.fire({
+                title: 'Erreur!',
+                text: "<%= errors.emailExist %>",
+                icon: 'warning',
+                timer: 7000,
+                confirmButtonText: 'OK'
+              });
+            });
+          </script>
+          <% } %>
+
+            <form action="/register" id="registerForm" method="POST" class="needs-validation" novalidate>
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <h1 class="mb-4 h3 text-center fw-bold text-primary">Créer un compte</h1>
+
+              <!-- Prénom et Nom -->
+              <div class="row g-3 mb-3">
+                <div class="col-sm-6">
+                  <label class="form-label fw-semibold" for="firstName">Prénom</label>
+                  <input type="text" name="firstName" id="firstName" required class="form-control form-control-lg fs-6"
+                    placeholder="Jean" />
+                  <div class="invalid-feedback">Au moins 3 caractères requis.</div>
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label fw-semibold" for="lastName">Nom</label>
+                  <input type="text" name="lastName" id="lastName" required class="form-control form-control-lg fs-6"
+                    placeholder="Dupont" />
+                  <div class="invalid-feedback">Au moins 3 caractères requis.</div>
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="mb-3">
+                <label class="form-label fw-semibold" for="email">Adresse Email</label>
+                <input type="email" name="email" id="email" required class="form-control form-control-lg fs-6"
+                  placeholder="exemple@mail.com" />
+                <div class="invalid-feedback" id="emailFeedback">Veuillez entrer une adresse email valide.</div>
+              </div>
+
+              <!-- Mot de passe -->
+              <div class="mb-2">
+                <label class="form-label fw-semibold" for="password">Mot de passe</label>
+                <input type="password" name="password" id="password" required class="form-control form-control-lg fs-6"
+                  placeholder="••••••••" />
+                <div class="invalid-feedback">Au moins 6 caractères requis.</div>
+              </div>
+
+              <!-- Indicateur de force du mot de passe -->
+              <div class="mb-3">
+                <div class="progress" style="height: 6px;">
+                  <div id="passwordStrengthBar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                </div>
+                <small id="passwordStrengthText" class="form-text text-muted d-block mt-1">Force : Non saisi</small>
+              </div>
+
+              <!-- Confirmer le mot de passe -->
+              <div class="mb-4">
+                <label class="form-label fw-semibold" for="password2">Confirmer le mot de passe</label>
+                <input type="password" name="password2" id="password2" required
+                  class="form-control form-control-lg fs-6" placeholder="••••••••" />
+                <div class="invalid-feedback">Les mots de passe ne correspondent pas.</div>
+              </div>
+
+              <!-- CAPTCHA -->
+              <div class="card bg-light border-0 p-3 mb-4 rounded-3">
+                <label class="form-label fw-bold text-secondary mb-2" for="captchaInput">Vérification de
+                  sécurité</label>
+                <div class="d-flex align-items-center gap-2 mb-3">
+                  <div id="captchaBox"
+                    class="border rounded bg-white overflow-hidden flex-grow-1 d-flex align-items-center justify-content-center"
+                    style="height: 50px;">
+                    <img src="/captcha" id="captchaImage" alt="Security Captcha" class="w-100 h-100" />
+                  </div>
+                  <button type="button" id="refreshCaptcha" class="btn btn-outline-secondary h-100 p-2"
+                    title="Changer d'image" style="height: 50px;">
+                    🔄
+                  </button>
+                </div>
+                <input type="text" name="captcha" id="captchaInput" autocomplete="off" required
+                  class="form-control form-control-lg text-center" placeholder="Entrez les 6 caractères" />
+                <div class="invalid-feedback">Le champ captcha est requis.</div>
+              </div>
+
+              <!-- Bouton de validation -->
+              <div class="text-center d-grid gap-2">
+                <button type="submit" id="submitBtn" class="btn btn-primary btn-lg fw-semibold shadow-sm" disabled>
+                  S'inscrire
+                </button>
+                <p class="mt-3 mb-0 text-muted">J'ai déjà un compte ? <a href="/login"
+                    class="text-decoration-none fw-medium">Connexion</a></p>
+              </div>
+            </form>
+
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <a href="/" class="btn btn-link text-decoration-none text-secondary">Retour à l'accueil Note.</a>
+    </div>
+  </main>
+</div>
+
+<script src="http://localhost:5000/js/register.js"></script>

@@ -1,0 +1,196 @@
+<script>
+  const pagee = "<%- locals.page || 1 %>"; 
+</script>
+<link rel="stylesheet" href="/css/user.css">
+<script src="/js/pagination.js"></script>
+
+<% if (GetVar) { %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const errorMessage = "<%= GetVar %>";
+      if (errorMessage && errorMessage !== 'null') {
+        Swal.fire({
+          title: 'Erreur!',
+          text: errorMessage,
+          icon: 'error',
+          timer: 5000,
+          confirmButtonText: 'OK'
+        });
+      }
+    });
+  </script>
+  <% } %>
+
+    <!-- En-tête de page -->
+    <div class="container mt-4">
+      <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+        <h2 class="fw-bold text-dark mb-0">Tous les utilisateurs</h2>
+        <span class="badge bg-primary rounded-pill fs-6" id="user-count">
+          <%= users.length %> inscrits
+        </span>
+      </div>
+
+      <!-- Pagination du haut -->
+      <nav class="mb-3" aria-label="Pagination top">
+        <ul id="paginationTop" class="pagination justify-content-center mb-0"></ul>
+      </nav>
+
+      <!-- Conteneur de la liste des utilisateurs -->
+      <div id="notes-container" class="row g-3 mb-4">
+        <!-- Injecté par JavaScript -->
+      </div>
+
+      <!-- Alerte aucun résultat -->
+      <div id="no-results" class="alert alert-warning no-results text-center py-4 shadow-sm">
+        <i class="fa fa-search shadow-sm p-3 bg-white rounded-circle text-warning mb-3 fs-4"></i>
+        <p class="mb-0 fw-semibold">Aucun utilisateur ne correspond à votre recherche.</p>
+      </div>
+
+      <!-- Pagination du bas -->
+      <nav class="mt-4 mb-5" aria-label="Pagination bottom">
+        <ul id="paginationBottom" class="pagination justify-content-center mb-0"></ul>
+      </nav>
+    </div>
+
+   <script>
+// Récupération sécurisée des données envoyées par Node.js
+const users = <%- JSON.stringify(users) %>;
+
+// Variables de pagination globale
+let currentPage = 1;
+const PAGE_SIZE = 8; 
+
+const container = document.getElementById('notes-container');
+const noResults = document.getElementById('no-results');
+const paginationTop = document.getElementById('paginationTop');
+const paginationBottom = document.getElementById('paginationBottom');
+
+// Générateur d'initiales sécurisé
+function initials(firstName) {
+  if (!firstName) return '?';
+  return firstName.split(' ').map(s => s || '').slice(0,2).join('').toUpperCase();
+}
+
+// Attribution dynamique de couleur selon le rôle
+function getRoleBadge(role) {
+  const r = String(role || 'user').toLowerCase();
+  if (r === 'admin') return 'bg-danger text-white';
+  if (r === 'moderator' || r === 'modérateur') return 'bg-warning text-dark';
+  return 'bg-light text-secondary border';
+}
+
+// Fonction d'affichage des éléments
+function renderItems(list) {
+  container.innerHTML = '';
+
+  if (!list || !list.length) {
+    noResults.style.display = 'block';
+    if (paginationTop) paginationTop.innerHTML = '';
+    if (paginationBottom) paginationBottom.innerHTML = '';
+    return;
+  }
+
+  noResults.style.display = 'none';
+
+  const totalPages = Math.ceil(list.length / PAGE_SIZE);
+  if (currentPage > totalPages) currentPage = totalPages || 1;
+
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const pageItems = list.slice(start, start + PAGE_SIZE);
+
+  pageItems.forEach(user => {
+    const col = document.createElement('div');
+    col.className = 'col-12 col-md-6';
+
+    let avatarHTML = '';
+    if (user.avatar && user.avatar !== 'default-avatar.png') {
+      avatarHTML = `
+        <img src="/img/${user.avatar}" 
+             alt="Avatar de ${user.firstName}" 
+             class="avatar" 
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex'">
+        <div style="display:none;" class="avatar">${initials(user.firstName)}</div>
+      `;
+    } else {
+      avatarHTML = `<div class="avatar">${initials(user.firstName)}</div>`;
+    }
+
+    col.innerHTML = `
+      <div class="card user-card shadow-sm h-100">
+        <div class="card-body d-flex gap-3 align-items-center p-3">
+          <div class="flex-shrink-0">
+            ${avatarHTML}
+          </div>
+          <div class="flex-grow-1 min-w-0">
+            <h5 class="card-title mb-1 text-truncate">
+              <a class="text-decoration-none fw-bold text-dark" href="/profil-${user._id}">
+                ${user.firstName || ''} <span class="text-secondary fw-normal">${user.lastName || ''}</span>
+              </a>
+            </h5>
+            <p class="card-text mb-1 text-muted text-truncate small">${user.email || ''}</p>
+            <span class="badge ${getRoleBadge(user.role)} font-monospace px-2 py-1 small">${user.role || 'User'}</span>
+          </div>
+          ${user.noteCount > 0 ? `
+            <div class="flex-shrink-0 text-end ps-2">
+              <a href="/dashboard/notes-${user._id}" class="btn btn-sm btn-outline-primary rounded-pill shadow-sm px-3" title="Consulter ses notes">
+                ${user.noteCount} <i class="fa fa-eye ms-1"></i>
+              </a>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+    container.appendChild(col);
+  });
+
+  // Appel de la fonction globale présente dans pagination.js
+  if (typeof renderPagination === 'function') {
+    renderPagination(totalPages, list);
+  }
+}
+
+// Fonction de filtrage par mot-clé
+function applyFilter(term = '') {
+  currentPage = 1; 
+  const cleanTerm = term.trim().toLowerCase();
+
+  if (cleanTerm === '') {
+    renderItems(users);
+    return;
+  }
+
+  const filtered = users.filter(user => {
+    const fName = String(user.firstName || '').toLowerCase();
+    const lName = String(user.lastName || '').toLowerCase();
+    const role = String(user.role || '').toLowerCase();
+    const email = String(user.email || '').toLowerCase();
+    
+    return fName.includes(cleanTerm) || 
+           lName.includes(cleanTerm) || 
+           role.includes(cleanTerm)  ||
+           email.includes(cleanTerm);
+  });
+
+  renderItems(filtered);
+}
+
+// Initialisation sécurisée des écouteurs d'événements
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.getElementById('search');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      applyFilter(e.target.value);
+    });
+  }
+
+  const searchInputOffcanvas = document.getElementById('searchInputOffcanvas');
+  if (searchInputOffcanvas) {
+    searchInputOffcanvas.addEventListener('input', (e) => {
+      applyFilter(e.target.value);
+    });
+  }
+  
+  // Affichage initial forcé de la liste complète des utilisateurs
+  renderItems(users);
+});
+</script>

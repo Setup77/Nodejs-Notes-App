@@ -1,0 +1,32 @@
+<div class="container-fluid">
+    <div class="d-flex flex-wrap align-items-center justify-content-center
+     justify-content-md-between py-3 mb-4">
+      <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-2 mb-md-0  text-decoration-none 
+      text-primary fw-bold fs-2">
+    Notes </a>
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+             <% if (session && session.user) { %>
+   <li><a class="nav-link px-2 fw-bold text-secondary" href="/dashboard"> <%= session.user.firstName %></a><li>
+<% }  %>
+        <li class="nav-item"><a href="/" class="nav-link px-2 text-secondary">Accueil</a></li>
+        <li class="nav-item"><a href="/users" class="nav-link px-2 text-black">Membres</a></li> 
+        <li class="nav-item"><a href="/dashboard/AllNotes" class="nav-link px-2 text-black">Tous les Notes</a></li>
+      
+      </ul>
+ 
+              <% if (session && session.user) {  %>
+   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <li class="nav-item">
+        <a href="/logout" title="Déconnexion" class="nav-link">Déconnexion</a>
+      </li>
+      <% } else { %>
+     <li class="nav-item">
+        <a href="../register" title="inscription" class="nav-link">S'inscrire</a></li>
+       <li class="nav-item">
+    <a href="../login" title="Connexion" class="nav-link">Se connecter</a>
+      </li>
+      <% } %>
+ </ul>
+    </div>
+  </div>

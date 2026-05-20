@@ -1,0 +1,42 @@
+{
+  "name": "nodejs-notes",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^2.2.0",
+    "bootstrap-icons": "^1.11.1",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^5.1.0",
+    "cookie-parser": "^1.4.7",
+    "dayjs": "^1.11.18",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "exit-hook": "^4.0.0",
+    "express": "^4.19.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.18.0",
+    "fs": "^0.0.1-security",
+    "helmet": "^8.1.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^6.10.0",
+    "multer": "^2.0.2",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7",
+    "svg-captcha": "^1.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

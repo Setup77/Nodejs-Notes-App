@@ -1,0 +1,182 @@
+<div class="container-fluid pb-5 mb-5">
+
+  <!-- Fil d'Ariane / Breadcrumb -->
+  <div class="row mb-4">
+    <div class="col">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/notes-for-all-users">Notes</a></li>
+          <li class="breadcrumb-item active">
+            <%= note.title %>
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <% const isDefault=!note.colorCategory || note.colorCategory==='default' ; const textClass=isDefault ? 'text-dark'
+    : 'text-white' ; const mutedTextClass=isDefault ? 'text-muted' : 'text-white-50' ; const bodyTextClass=isDefault
+    ? 'text-secondary' : 'text-white' ; %>
+
+    <div class="my-5">
+      <!-- 🎨 Application de la classe de fond dynamique et adaptation du texte -->
+      <div class="card shadow-sm border-0 rounded-4 post-card <%= note.colorCategory %>">
+        <div class="card-body p-4 post-description rounded-4">
+
+          <!-- Section Auteur -->
+          <div class="d-flex align-items-center mb-4">
+            <div class="me-3">
+              <% if (note.user && note.user.avatar) { %>
+                <img src="/img/<%= note.user.avatar %>" alt="Avatar de <%= note.user.firstName %>"
+                  class="rounded-circle border" style="width:60px; height:60px; object-fit:cover;">
+                <% } else { %>
+                  <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
+                    style="width:60px; height:60px; font-size:1.2rem; font-weight: bold;">
+                    <%= note.user && note.user.firstName ? note.user.firstName.charAt(0).toUpperCase() : 'N' %>
+                      <%= note.user && note.user.lastName ? note.user.lastName.charAt(0).toUpperCase() : 'A' %>
+                  </div>
+                  <% } %>
+            </div>
+
+            <div>
+              <h5 class="mb-0 fw-bold <%= textClass %>">
+                <%= note.user ? note.user.firstName : 'Anonyme' %>
+                  <%= note.user ? note.user.lastName : '' %>
+              </h5>
+              <small class="<%= mutedTextClass %>">
+                <%= note.user ? note.user.role : 'Utilisateur' %>
+              </small>
+            </div>
+          </div>
+
+          <hr class="<%= isDefault ? '' : 'border-white opacity-25' %>">
+
+          <!-- Corps de la Note -->
+          <h4 class="fw-bold mb-3 <%= isDefault ? 'text-primary' : 'text-white' %>">
+            <%= note.title %>
+          </h4>
+
+          <!-- Affichage conditionné si To-Do List ou Texte Classique -->
+          <div class="<%= bodyTextClass %> mb-4 fs-5">
+            <% if (note.isTodo && note.checklist && note.checklist.length> 0) { %>
+              <ul class="list-unstyled">
+                <% note.checklist.forEach(function(item) { %>
+                  <li class="mb-2">
+                    <i
+                      class="fa <%= item.isDone ? 'fa-check-square ' + (isDefault ? 'text-success' : 'text-warning') : 'fa-square ' + mutedTextClass %> me-2"></i>
+                    <span class="<%= item.isDone ? 'text-decoration-line-through ' + mutedTextClass : '' %>">
+                      <%= item.text %>
+                    </span>
+                  </li>
+                  <% }); %>
+              </ul>
+              <% } else { %>
+                <p class="mb-0 text-break" style="white-space: pre-line;">
+                  <%= note.body %>
+                </p>
+                <% } %>
+          </div>
+
+          <!-- 📎 AFFICHAGE DES MÉDIAS ATTACHÉS -->
+          <% if (note.attachments && note.attachments.length> 0) { %>
+            <div class="mb-4 mt-5 p-3 rounded-3 <%= isDefault ? 'bg-light border' : 'bg-white bg-opacity-10' %>">
+              <h6 class="fw-bold mb-3 <%= textClass %>">
+                <i class="fa fa-paperclip me-2"></i>Pièces jointes (<%= note.attachments.length %>)
+              </h6>
+              <div class="row g-3">
+                <% note.attachments.forEach(function(file) { %>
+                  <% const fileExtension=file.filename.split('.').pop().toLowerCase(); const isImage=['jpg', 'jpeg'
+                    , 'png' , 'gif' ].includes(fileExtension); const isVideo=['mp4'].includes(fileExtension); %>
+                    <div class="col-6 col-sm-4 col-md-3 col-xl-2">
+                      <div
+                        class="card h-100 border text-center p-2 bg-white text-dark shadow-sm rounded-3 d-flex flex-column align-items-center justify-content-between">
+
+                        <!-- Rendu dynamique selon le type de média -->
+                        <% if (isImage) { %>
+                          <a href="<%= file.filepath %>" target="_blank">
+                            <img src="<%= file.filepath %>" class="img-fluid rounded mb-2 border"
+                              style="max-height: 120px; object-fit: cover; width: 100%;">
+                          </a>
+                          <% } else if (isVideo) { %>
+                            <video src="<%= file.filepath %>" class="w-100 rounded mb-2 border"
+                              style="max-height: 120px; object-fit: cover;" controls></video>
+                            <% } else { %>
+                              <% let iconSrc='/img/media_word.png' ; if (fileExtension==='pdf' )
+                                iconSrc='/img/media_pdf.png' ; else if (['xls', 'xlsx' , 'csv'
+                                ].includes(fileExtension)) iconSrc='/img/media_xls.png' ; %>
+                                <img src="<%= iconSrc %>" class="img-fluid rounded mb-2"
+                                  style="height: 70px; object-fit: contain;">
+                                <% } %>
+
+                                  <!-- Nom tronqué et action de téléchargement -->
+                                  <div class="w-100 mt-2">
+                                    <small class="d-block text-truncate fw-medium text-muted px-1"
+                                      title="<%= file.filename %>" style="font-size: 0.75rem;">
+                                      <%= file.filename %>
+                                    </small>
+                                    <a href="<%= file.filepath %>" download="<%= file.filename %>"
+                                      class="btn btn-sm btn-outline-secondary w-100 mt-2 rounded-pill py-1"
+                                      style="font-size: 0.7rem;">
+                                      <i class="fa fa-download me-1"></i>Ouvrir / Charger
+                                    </a>
+                                  </div>
+
+                      </div>
+                    </div>
+                    <% }); %>
+              </div>
+            </div>
+            <% } %>
+
+              <!-- Date de dernière modification -->
+              <div class="text-end mb-4">
+                <small class="<%= mutedTextClass %>">
+                  Dernière modification le <%= new Date(note.updatedAt).toLocaleDateString('fr-FR', { year: 'numeric' ,
+                    month: 'long' , day: 'numeric' , hour: '2-digit' , minute: '2-digit' }) %>
+                </small>
+              </div>
+
+              <!-- Boutons d’action du bas -->
+              <div
+                class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top <%= isDefault ? '' : 'border-white border-opacity-25' %>">
+
+                <!-- À gauche : Profil -->
+                <a href="/profil-<%= note.user ? note.user._id : '#' %>" title="Profil"
+                  class="btn btn-sm <%= isDefault ? 'btn-outline-primary' : 'btn-light text-primary' %> rounded-pill px-3">
+                  <i class="fa fa-user me-1"></i> Voir le profil
+                </a>
+
+                <!-- Au centre : Ses Notes / Mes Notes -->
+                <% if (note.user) { 
+                  var authorId=(note.user._id || note.user).toString(); 
+                  var isCurrentUser=(typeof session !=='undefined' && session && session.user && session.user._id===authorId); %>
+                  <a href="/dashboard/notes-<%= authorId %>"
+                    title="<%= isCurrentUser ? 'Voir mes notes' : 'Voir ses notes' %>"
+                    class="btn btn-sm <%= isDefault ? 'btn-outline-secondary' : 'btn-light text-secondary' %> rounded-pill px-3">
+                    <i class="fa fa-sticky-note me-1"></i>
+                    <%= isCurrentUser ? 'Mes notes' : 'Ses notes' %>
+                  </a>
+                  <% } else { %>
+                    <span class="btn btn-sm disabled rounded-pill px-3">
+                      <i class="fa fa-sticky-note me-1"></i> Ses notes
+                    </span>
+                    <% } %>
+
+
+
+                      <!-- À droite : Contacter par Email -->
+                      <% if (note.user && note.user.email) { %>
+                        <a href="mailto:<%= note.user.email %>" title="Envoyer un Email"
+                          class="btn btn-sm <%= isDefault ? 'btn-primary' : 'btn-white bg-white text-dark border-0' %> rounded-pill px-3">
+                          <i class="fa fa-envelope me-1"></i> Contacter <%= note.user.lastName %>
+                        </a>
+                        <% } %>
+
+              </div>
+
+
+        </div>
+      </div>
+    </div>
+
+</div>

@@ -1,0 +1,11 @@
+.env
+/node_modules
+/public/bootstrap_icon-1.1
+/public/bootstrap_icons
+/public/bootstrap-5.3.3-dist
+/public/bootstrap-icons
+/public/font-awesome
+/public/fonts
+/public/toast
+/public/img
+/public/uploads

@@ -1,0 +1,60 @@
+<div class="container-fluid home py-5 d-flex justify-content-center align-items-center min-vh-100">
+  <main class="container">
+    <div class="row justify-content-center">
+      <!-- On limite la largeur à 8 colonnes pour que le texte ne s'étale pas trop -->
+      <div class="col-lg-8 col-md-10 text-center home-content">
+
+        <!-- Script SweetAlert Sécurisé -->
+        <% if (locals.logout || locals.accessDenied) { %>
+          <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                  title: '<%= locals.logout ? "Déconnecté !" : "Erreur !" %>',
+                  text: '<%= locals.logout || locals.accessDenied %>',
+                  icon: '<%= locals.logout ? "success" : "error" %>',
+                  timer: 5000,
+                  confirmButtonText: 'OK'
+                });
+              } else {
+                console.warn("SweetAlert2 n'est pas encore chargé.");
+              }
+            });
+          </script>
+          <% } %>
+
+
+            <!-- Contenu Principal -->
+            <h1 class="display-1 fw-extrabold mb-4 position-relative home-title">
+              Écrivez vos pensées <br class="d-none d-md-block"> au fur et à mesure.
+            </h1>
+
+            <p class="lead fs-3 mb-5 text-dark opacity-75">
+              Notes est une application de prise de notes gratuite et intuitive, <br class="d-none d-md-block">
+              propulsée par <strong>Node.js</strong> et <strong>MongoDB</strong>.
+            </p>
+
+            <div class="d-flex justify-content-center gap-3 flex-column flex-sm-row">
+              <% if (typeof session !=='undefined' && session && session.user) { %>
+                <!-- 🏠 Visible UNIQUEMENT si l'utilisateur EST connecté -->
+                <a href="/dashboard" class="btn btn-success btn-lg px-5 py-3 rounded-pill shadow-lg hover-lift">
+                  <i class="fa fa-home me-2"></i>Mon tableau de bord
+                </a>
+                <% } else { %>
+                  <!-- 🚀 Visible UNIQUEMENT si l'utilisateur N'EST PAS connecté -->
+                  <a href="/register" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg hover-lift">
+                    Essayez Notes, c'est GRATUIT !
+                  </a>
+                  <% } %>
+
+                    <a href="/notes-for-all-users" class="btn btn-outline-dark btn-lg px-5 py-3 rounded-pill">
+                      <i class="fa fa-eye me-2"></i>Consulter les notes
+                    </a>
+            </div>
+
+
+
+      </div>
+    </div>
+  </main>
+</div>

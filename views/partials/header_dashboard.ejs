@@ -1,0 +1,156 @@
+<!-- On enlève d-flex pour laisser le JS gérer l'apparition -->
+<button type="button" id="btnScrollTop"
+  class="btn btn-primary rounded-circle shadow-lg position-fixed">
+  <i class="bi bi-arrow-up-short fs-4"></i>
+</button>
+
+
+<!-- Navbar principale -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-lg-5 sticky-top shadow-sm"
+  style="backdrop-filter: blur(10px); background: rgba(33, 37, 41, 0.95) !important;">
+  <div class="container-fluid">
+
+    <!-- Bouton Mobile -->
+    <button id="BoutonMenuMobiel" class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas"
+      data-bs-target="#mobileMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Logo avec effet Hover -->
+    <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
+      <img src="/img/nkw.png" width="35" height="35" alt="Logo" class="me-2 hover-rotate">
+      <span class="text-gradient">Note-Book</span>
+    </a>
+
+    <!-- Liens Centraux (Desktop) -->
+    <div class="collapse navbar-collapse justify-content-center">
+      <ul class="navbar-nav mb-2 mb-lg-0 gap-lg-3">
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom <%= locals.page == 1 ? 'active' : '' %>" href="/">Accueil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom <%= locals.page == 4 ? 'active' : '' %>" href="/users">Membres</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom <%= locals.page == 7 ? 'active' : '' %>"
+            href="/notes-for-all-users">Consulter</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Barre de recherche & Profil (Droite) -->
+    <div class="d-flex align-items-center gap-3">
+      <% if (locals.page==6 || locals.page==7 || locals.page==4) { %>
+        <div class="search-box d-none d-xl-block">
+          <input type="text" class="form-control search-input" id="search" placeholder="Rechercher...">
+          <i class="fa fa-search search-icon"></i>
+        </div>
+        <% } %>
+
+          <div class="d-none d-lg-flex align-items-center gap-2">
+            <% if (session && session.user) { %>
+              <div class="dropdown">
+                <a class="btn btn-dark dropdown-toggle border-secondary rounded-pill px-3" href="#" role="button"
+                  data-bs-toggle="dropdown">
+                  <i class="fa fa-user-circle me-1"></i>
+                  <%= session.user.firstName %>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow-lg mt-2">
+                  <li><a class="dropdown-item" href="/dashboard"><i class="fa fa-th-large me-2"></i>Dashboard</a></li>
+                  <li><a class="dropdown-item" href="/profil-<%= session.user._id %>"><i class="fa fa-user me-2"></i>Mon
+                      Profil</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item text-danger" href="/logout"><i
+                        class="fa fa-sign-out me-2"></i>Déconnexion</a></li>
+                </ul>
+              </div>
+              <% } else { %>
+                <a href="/login" class="nav-link text-white me-2">Connexion</a>
+                <a href="/register" class="btn btn-primary rounded-pill px-4 shadow-sm">S'inscrire</a>
+                <% } %>
+          </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Partie mobile -->
+<div class="offcanvas offcanvas-start text-white border-0 shadow-lg" tabindex="-1" id="mobileMenu"
+  style="background: rgba(28, 31, 35, 0.98); backdrop-filter: blur(15px); width: 280px;">
+
+  <div class="offcanvas-header d-flex flex-column align-items-start pb-0">
+    <div class="d-flex justify-content-between w-100 align-items-center mb-4">
+      <h5 class="offcanvas-title fw-bold text-gradient fs-4" id="mobileMenuLabel">Note-Book</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+
+    <% if (session && session.user) { %>
+      <!-- Badge utilisateur stylisé -->
+      <div class="user-profile-badge d-flex align-items-center p-3 mb-4 w-100 rounded-4"
+        style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+        <div class="avatar-circle me-3">
+          <%= session.user.firstName.charAt(0) %>
+        </div>
+        <div>
+          <p class="mb-0 small text-muted">Bienvenue,</p>
+          <p class="mb-0 fw-bold">
+            <%= session.user.firstName %>
+          </p>
+        </div>
+      </div>
+      <% } %>
+  </div>
+
+  <div class="offcanvas-body pt-2">
+    <ul class="navbar-nav gap-2">
+      <li class="nav-item">
+        <a class="nav-link nav-mobile-item <%= locals.page == 1 ? 'active' : '' %>" href="/">
+          <i class="fa fa-home me-3 text-warning"></i> Accueil
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link nav-mobile-item <%= locals.page == 4 ? 'active' : '' %>" href="/users">
+          <i class="fa fa-users me-3 text-info"></i> Membres
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link nav-mobile-item <%= locals.page == 7 ? 'active' : '' %>" href="/notes-for-all-users">
+          <i class="fa fa-book-open me-3 text-success"></i> Consulter
+        </a>
+      </li>
+
+      <% if (session && session.user) { %>
+        <hr class="my-3 opacity-25">
+        <li class="nav-item">
+          <a class="nav-link nav-mobile-item <%= locals.page == 6 ? 'active' : '' %>" href="/dashboard">
+            <i class="fa fa-th-large me-3 text-primary"></i> Mon Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-mobile-item <%= locals.page == 5 ? 'active' : '' %>"
+            href="/profil-<%= session.user._id %>">
+            <i class="fa fa-user-cog me-3 text-secondary"></i> Paramètres Profil
+          </a>
+        </li>
+        <% } %>
+    </ul>
+
+    <!-- Section Actions (Bas) -->
+    <div class="mt-5 pt-5">
+      <% if (session && session.user) { %>
+        <a href="/logout" class="btn btn-outline-danger w-100 rounded-pill py-2 border-0 shadow-sm"
+          style="background: rgba(220, 53, 69, 0.1);">
+          <i class="fa fa-sign-out-alt me-2"></i> Déconnexion
+        </a>
+        <% } else { %>
+          <div class="d-grid gap-3">
+            <a href="/login" class="btn btn-outline-light rounded-pill py-2">Se connecter</a>
+            <a href="/register" class="btn btn-warning rounded-pill py-2 fw-bold shadow-sm">Créer un compte</a>
+          </div>
+          <% } %>
+    </div>
+  </div>
+</div>

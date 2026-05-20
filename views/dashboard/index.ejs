@@ -1,0 +1,260 @@
+<div class="container-fluid px-lg-5 py-4">
+
+  <!-- En-tête de bienvenue & Actions -->
+  <div class="d-flex justify-content-between align-items-center mb-5">
+    <div>
+      <% if (anoteruser===2) { %>
+        <!-- 🏠 URL : http://localhost:5000/dashboard (Votre espace personnel) -->
+        <h1 class="h3 fw-bold mb-1 text-dark">Bonjour, <%= userName %> 👋</h1>
+        <p class="text-muted small mb-0">Organisez vos idées et vos tâches quotidiennes.</p>
+
+        <% } else if (anoteruser===0) { %>
+          <!-- 🌍 URL : http://localhost:5000/notes-for-all-users (Flux communautaire) -->
+          <h1 class="h3 fw-bold mb-1 text-dark">Flux Communautaire 🌍</h1>
+          <p class="text-muted small mb-0">Découvrez les notes et pensées publiques partagées par la communauté.</p>
+
+          <% } else if (anoteruser===1) { %>
+            <!-- 👤 URL : http://localhost:5000/dashboard/notes-:id (Notes publiques d'un autre utilisateur) -->
+            <h1 class="h3 fw-bold mb-1 text-dark">
+              Notes de <%= usernote ? usernote.firstName : 'l\' utilisateur' %> 👤
+            </h1>
+            <p class="text-muted small mb-0">Espace public de partage et de consultation.</p>
+            <% } %>
+    </div>
+
+    <div>
+      <!-- Inclusion de votre bouton de création de note modal -->
+      <%- include('./boxModal.ejs') %>
+    </div>
+  </div>
+
+  <%- include('sweetBoxAlert.ejs') %>
+
+    <!-- Barre de Pagination Supérieure -->
+    <% if (notes.length> 0) { %>
+      <nav aria-label="Pagination supérieure" class="mb-4">
+        <!-- 🔄 Modification : 'justify-content-center' pour aligner au milieu -->
+        <ul class="pagination pagination-sm justify-content-center mb-0" id="paginationTop"></ul>
+      </nav>
+      <% } %>
+
+
+        <!-- Grille de Notes -->
+        <div class="row g-4" id="notesContainer">
+          <% if (notes.length> 0) { %>
+            <% notes.forEach(function(note) { %>
+              <% const isDefault=!note.colorCategory || note.colorCategory==='default' ; const textClass=isDefault
+                ? 'text-dark' : 'text-white' ; const mutedTextClass=isDefault ? 'text-muted' : 'text-white-50' ; const
+                secondaryTextClass=isDefault ? 'text-secondary' : 'text-white' ; %>
+                <!-- 1. Ajout de la classe "note-card-container" sur la colonne de la carte -->
+                <div class="col-sm-6 col-md-4 col-xl-3 note-card-container">
+                  <!-- 🎨 Injection de note.colorCategory dans les classes Bootstrap. Ajout d'une classe 'post-card' et 'post-description' pour matcher exactement vos CSS -->
+                  <div
+                    class="card h-100 border-0 shadow-sm rounded-4 position-relative card-hover-effect post-card <%= note.colorCategory %>"
+                    style="transition: transform 0.2s ease;">
+
+                    <!-- Badge Épinglé -->
+                    <% if (note.isPinned) { %>
+                      <span
+                        class="position-absolute top-0 end-0 m-3 text-warning shadow-sm bg-white rounded-circle p-1 d-flex align-items-center justify-content-center"
+                        style="width: 28px; height: 28px; z-index: 5;">
+                        <i class="fa fa-thumbtack"></i>
+                      </span>
+                      <% } %>
+
+                        <!-- Le conteneur interne reçoit la classe 'post-description' pour déclencher vos dégradés CSS -->
+                        <div class="card-body p-4 h-100 d-flex flex-column post-description rounded-4">
+
+                          <!-- Titre de la Note -->
+                          <h5 class="card-title fw-bold <%= textClass %> mb-2 text-truncate pe-4 note-title">
+                            <%= note.title %>
+                          </h5>
+
+                          <!-- Date de mise à jour (Utilise DayJS) -->
+                          <h6 class="card-subtitle mb-3 <%= mutedTextClass %>" style="font-size: 0.72rem;">
+                            <i class="fa fa-clock me-1"></i>
+                            <%= dayjs(note.updatedAt).fromNow() %>
+
+
+                              <!-- ✅ Compteur dynamique de médias joints -->
+                              <% if (note.attachments && note.attachments.length> 0) { %>
+                                <span
+                                  class="badge <%= isDefault ? 'bg-dark text-white' : 'bg-white text-dark' %> rounded-pill ms-2 shadow-sm"
+                                  style="font-size: 0.7rem;">
+                                  <i class="fa fa-paperclip me-1"></i>
+                                  <%= note.attachments.length %>
+                                </span>
+                                <% } %>
+                          </h6>
+
+                          <!-- Contenu de la Note conditionné par son format -->
+                          <div class="card-text <%= secondaryTextClass %> small mb-3 flex-grow-1 note-body">
+                            <% if (note.isTodo) { %>
+                              <!-- Format Liste de Tâches -->
+                              <ul class="list-unstyled mb-0">
+                                <% note.checklist.slice(0, 3).forEach(function(item) { %>
+                                  <li class="text-truncate mb-1">
+                                    <!-- Adaptation de la couleur des cases à cocher selon le fond -->
+                                    <i
+                                      class="fa <%= item.isDone ? 'fa-check-square ' + (isDefault ? 'text-success' : 'text-warning') : 'fa-square ' + mutedTextClass %> me-2"></i>
+                                    <span
+                                      class="<%= item.isDone ? 'text-decoration-line-through ' + mutedTextClass : '' %>">
+                                      <%= item.text %>
+                                    </span>
+                                  </li>
+                                  <% }); %>
+
+                                    <% if (note.checklist.length> 3) { %>
+                                      <li class="<%= mutedTextClass %> ps-4 small">+ <%= note.checklist.length - 3 %>
+                                          autres éléments...</li>
+                                      <% } %>
+                              </ul>
+                              <% } else { %>
+                                <!-- Format Texte Normal -->
+                                <p class="mb-0 text-break text-truncate-custom"
+                                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden;">
+                                  <%= note.body %>
+                                </p>
+                                <% } %>
+                          </div>
+
+                          <!-- Section Tags -->
+                          <% if (note.tags && note.tags.length> 0) { %>
+                            <div class="d-flex flex-wrap gap-1 mb-3 note-tag">
+                              <% note.tags.forEach(function(tag) { %>
+                                <span
+                                  class="badge <%= isDefault ? 'bg-light text-dark border' : 'bg-white bg-opacity-25 text-white' %> shadow-0 font-monospace"
+                                  style="font-size: 0.7rem;">#<%= tag %></span>
+                                <% }); %>
+                            </div>
+                            <% } %>
+
+                              <!-- Liens d'Actions en pied de carte -->
+                              <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+
+                                <!-- 📢 Indicateur de Confidentialité (Visible uniquement par le propriétaire) -->
+                                <div>
+                                  <% if (typeof session !=='undefined' && session.user && note.user && (note.user._id ||
+                                    note.user).toString()===session.user._id) { %>
+                                    <% if (note.isPrivate) { %>
+                                      <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-2 py-1"
+                                        title="Cette note est privée">
+                                        <i class="fa fa-eye-slash me-1"></i>
+                                      </span>
+                                      <% } else { %>
+                                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1"
+                                          title="Cette note est publique">
+                                          <i class="fa fa-eye me-1"></i>
+                                        </span>
+                                        <% } %>
+                                          <% } %>
+                                </div>
+
+                                <!-- Groupe de boutons d'action (Alignés à droite) -->
+                                <div class="d-flex gap-2">
+                                  <!-- Bouton Voir (Toujours visible pour tout le monde) -->
+                                  <a href="/dashboard/view-note/<%= note._id %>"
+                                    class="btn btn-sm <%= isDefault ? 'btn-light' : 'btn-white bg-white bg-opacity-25 text-white border-0' %> rounded-pill shadow-sm">
+                                    <i class="fa fa-eye"></i>
+                                  </a>
+                                  <!-- Vérification : l'utilisateur est connecté ET il est l'auteur de la note -->
+                                  <% if (typeof session !=='undefined' && session.user && note.user && (note.user._id ||
+                                    note.user).toString()===session.user._id) { %>
+
+                                    <!-- ✅ Bouton Modifier (Sécurisé par Session) -->
+                                    <button type="button"
+                                      class="btn btn-sm <%= note.colorCategory === 'default' ? 'btn-light text-primary' : 'btn-white bg-white bg-opacity-25 text-white border-0' %> rounded-pill shadow-sm"
+                                      data-bs-toggle="modal" data-bs-target="#editNoteModal" data-id="<%= note._id %>"
+                                      data-title="<%= note.title %>" data-body="<%= note.bodyToModify %>"
+                                      data-istodo="<%= note.isTodo %>" data-colorcategory="<%= note.colorCategory %>"
+                                      data-tags="<%= note.tags ? note.tags.join(', ') : '' %>"
+                                      data-ispinned="<%= note.isPinned %>" data-isprivate="<%= note.isPrivate %>"
+                                      data-checklist='<%= JSON.stringify(note.checklist || []) %>'
+                                      data-attachments='<%= JSON.stringify(note.attachments || []) %>'>
+                                      <i class="fa fa-pencil-alt"></i>
+                                    </button>
+
+                                    <!-- 🗑️ Bouton Supprimer (Sécurisé par Session) -->
+                                    <button type="button"
+                                      class="btn btn-sm <%= isDefault ? 'btn-light text-danger' : 'btn-white bg-white bg-opacity-25 text-white border-0' %> rounded-pill shadow-sm"
+                                      onclick="confirmDelete('<%= note._id %>')">
+                                      <i class="fa fa-trash-alt"></i>
+                                    </button>
+
+                                    <% } %>
+
+                                </div>
+
+                              </div>
+
+
+                        </div>
+
+                  </div>
+                </div>
+                <% }); %>
+
+                  <% } else { %>
+                    <!-- Message si aucune note trouvée -->
+                    <div class="col-12 text-center py-5">
+                      <img src="/img/nkw.png" alt="Aucune note" class="mb-4 opacity-50 hover-rotate" width="100">
+
+                      <% if (anoteruser===2) { %>
+                        <!-- Cas : http://localhost:5000/dashboard (Utilisateur connecté) -->
+                        <h3 class="fw-bold h4">Commencez à capturer vos pensées</h3>
+                        <p class="text-muted">Votre espace est vide. Créez votre toute première note dès maintenant !
+                        </p>
+
+                        <% } else if (anoteruser===0) { %>
+                          <!-- Cas : http://localhost:5000/notes-for-all-users (Flux public) -->
+                          <h3 class="fw-bold h4">Aucune note publique disponible</h3>
+                          <p class="text-muted">Il n'y a actuellement aucune note partagée par la communauté.</p>
+
+                          <% } else if (anoteruser===1) { %>
+                            <!-- Cas : http://localhost:5000/dashboard/notes-id (Profil d'un autre utilisateur) -->
+                            <h3 class="fw-bold h4">Cet utilisateur n'a partagé aucune note</h3>
+                            <p class="text-muted">Revenez plus tard pour découvrir ses futures publications publiques.
+                            </p>
+                            <% } %>
+
+                    </div>
+                    <% } %>
+
+        </div>
+
+        <!-- ✨ Message dynamique d'absence de résultat (masqué par défaut) -->
+        <div id="noResultsMessage" class="d-none text-center my-5 py-5 animate__animated animate__fadeIn">
+          <div class="mb-3">
+            <i class="fa fa-search-minus fa-4x text-muted opacity-50"></i>
+          </div>
+          <h4 class="fw-bold text-secondary">Aucun résultat trouvé</h4>
+          <p class="text-muted small">Aucune note ne correspond à votre recherche. Essayez d'autres mots-clés.</p>
+        </div>
+
+
+        <!-- Barre de Pagination Inférieure -->
+        <% if (notes.length> 0) { %>
+          <nav aria-label="Pagination inférieure" class="mt-5">
+            <ul class="pagination justify-content-center" id="paginationBottom"></ul>
+          </nav>
+          <% } %>
+
+</div>
+
+<!-- Vos scripts actuels -->
+<script src="http://localhost:5000/js/dashboard.js"></script>
+<script src="http://localhost:5000/js/notes.js"></script>
+<script src="http://localhost:5000/js/noteUpdate.js"></script>
+<script src="http://localhost:5000/js/paginationDashboard.js"></script>
+
+<!-- ✨ AJOUT : Déclenchement automatique de la pagination graphique -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Récupération sécurisée des variables envoyées par le contrôleur Node.js
+    const totalPages = parseInt("<%= pages %>") || 1;
+    const currentPage = parseInt("<%= current %>") || 1;
+
+    // Appel de la fonction de génération
+    renderPagination(totalPages, currentPage);
+  });
+</script>

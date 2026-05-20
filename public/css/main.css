@@ -1,0 +1,473 @@
+:root {
+  --background-color: #ffc700;
+  --bs-primary-rgb: #12296c;
+}
+
+@font-face {
+  font-family: "OpenSans Bold";
+  src: url(../fonts/OpenSans-Bold.ttf); /* IE */
+}
+
+@font-face {
+  font-family: "OpenSans ExtraBoldItalic";
+  src: url(../fonts/OpenSans-ExtraBoldItalic.ttf); /* IE */
+}
+
+@font-face {
+  font-family: "OpenSans Light";
+  src: url(../fonts/OpenSans-Light.ttf); /* IE */
+}
+
+@font-face {
+  font-family: "OpenSans Regular";
+  src: url(../fonts/OpenSans-Regular.ttf); /* IE */
+}
+
+body {
+  background-color: var(--background-color);
+  font-family: "Poppins", sans-serif;
+  color: var(--bs-primary-rgb);
+  font-weight: 300;
+  font-size: 1.2rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Unbounded", cursive;
+  font-weight: 800;
+}
+
+.btn {
+  padding-left: 1.6rem;
+  padding-right: 1.6rem;
+  border-radius: 2rem;
+}
+
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--bs-primary-rgb);
+  --bs-btn-border-color: var(--bs-primary-rgb);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #0043a8;
+  --bs-btn-hover-border-color: #0043a8;
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--bs-primary-rgb);
+  --bs-btn-active-border-color: var(--bs-primary-rgb);
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--bs-primary-rgb);
+  --bs-btn-disabled-border-color: var(--bs-primary-rgb);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--bs-primary-rgb);
+  --bs-btn-border-color: var(--bs-primary-rgb);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #0043a8;
+  --bs-btn-hover-border-color: #0043a8;
+  --bs-btn-focus-shadow-rgb: 13, 110, 253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--bs-primary-rgb);
+  --bs-btn-active-border-color: #0d6efd;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: var(--bs-primary-rgb);
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: var(--bs-primary-rgb);
+  --bs-gradient: none;
+}
+
+.pagination {
+  --bs-pagination-color: var(--bs-primary-rgb);
+  --bs-pagination-active-bg: var(--bs-primary-rgb);
+  --bs-pagination-active-border-color: var(--bs-primary-rgb);
+}
+
+/* Home */
+@media (min-width: 1200px) {
+  .home {
+    background:
+      url("../img/human-1.svg") left bottom no-repeat,
+      url("../img/human-2.svg") right bottom no-repeat,
+      var(--background-color);
+  }
+}
+
+.home-title:before {
+  content: url("../img/stars.svg");
+  position: absolute;
+  left: -50px;
+  top: -30px;
+}
+
+.home-title:after {
+  content: url("../img/stars.svg");
+  position: absolute;
+  right: -50px;
+  bottom: -30px;
+}
+.float-right {
+  float: right !important;
+}
+
+#BoutonMenuMobiel {
+  display: none;
+}
+
+/* --- NAVBAR --- */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1045;
+}
+
+.navbar-brand img {
+  height: 32px;
+}
+
+.search-bar {
+  width: 300px;
+}
+
+/* --- OFFCANVAS PERSONNALISÉ --- */
+.offcanvas-start {
+  width: 200px;
+  background: rgba(33, 37, 41, 0.95); /* fond semi-transparent */
+  backdrop-filter: blur(10px); /* flou du fond */
+  transition: transform 0.4s ease-in-out;
+}
+
+/* Animation de slide plus douce */
+.offcanvas.offcanvas-start.show {
+  transform: translateX(0) !important;
+}
+
+/* --- OVERLAY FLUO --- */
+.offcanvas-backdrop.show {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .search-bar {
+    width: 100%;
+    margin-top: 10px;
+  }
+  #BoutonMenuMobiel {
+    display: flex !important;
+  }
+}
+
+/* --- End Offcanvas --- */
+
+/*Login et inscription  */
+
+.bg-glass {
+  background-color: hsla(0, 0%, 100%, 0.9) !important;
+  backdrop-filter: saturate(200%) blur(25px);
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.25rem rgba(116, 185, 255, 0.5);
+  border-color: #74b9ff;
+}
+
+.login-container {
+  min-height: 100vh;
+}
+
+.login-card {
+  max-width: 600px;
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.home-card {
+  max-width: 700px;
+  width: 100%;
+}
+
+/* Button publier après 1ere publication*/
+#AddNote {
+  z-index: 3000 !important;
+  top: 8% !important;
+}
+
+.no-results {
+  display: none;
+}
+
+/* Bouton retour scroll */
+#btnScrollTop {
+  bottom: 30px;
+  right: 25px;
+  z-index: 1050;
+  display: none; /* Hidden by default */
+  width: 50px;
+  height: 50px;
+  padding: 0; /* Important to keep icon centered */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+#btnScrollTop:hover {
+  transform: translateY(-5px); /* Moves up slightly on hover */
+  background-color: var(--bs-primary-rgb);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+#btnScrollTop i {
+  /* Resetting previous position shifts */
+  position: static;
+  line-height: 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 576px) {
+  #btnScrollTop {
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+  }
+}
+
+.card {
+  transition: transform 0.2s ease-in-out;
+}
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.btn-sm {
+  border-radius: 50px;
+  padding: 0.4rem 1rem;
+}
+
+/* Effet dégradé sur le texte du logo */
+.text-gradient {
+  background: linear-gradient(45deg, #ffc700, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Animation rotation logo au survol */
+.hover-rotate {
+  transition: transform 0.5s ease;
+}
+.navbar-brand:hover .hover-rotate {
+  transform: rotate(360deg);
+}
+
+/* Liens personnalisés avec barre soulignée animée */
+.nav-link-custom {
+  position: relative;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8) !important;
+  transition: color 0.3s ease;
+}
+.nav-link-custom::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #ffc700;
+  transition: width 0.3s ease;
+}
+.nav-link-custom:hover::after,
+.nav-link-custom.active::after {
+  width: 100%;
+}
+.nav-link-custom:hover {
+  color: #ffc700 !important;
+}
+
+/* Barre de recherche stylisée */
+.search-box {
+  position: relative;
+}
+.search-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  color: white !important;
+  padding-left: 35px;
+  width: 200px;
+  transition: width 0.4s ease;
+}
+.search-input:focus {
+  width: 280px;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: none;
+  border-color: #ffc700;
+}
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Style du Dropdown */
+.dropdown-menu {
+  border-radius: 12px;
+  border: none;
+}
+.dropdown-item:hover {
+  background-color: #ffc700;
+  color: black !important;
+}
+
+/* Style des items du menu mobile */
+.nav-mobile-item {
+  padding: 0.8rem 1rem !important;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.nav-mobile-item:hover {
+  background: rgba(255, 199, 0, 0.1);
+  color: #ffc700 !important;
+  transform: translateX(8px);
+}
+
+.nav-mobile-item.active {
+  background: #ffc700;
+  color: #000 !important;
+}
+
+.nav-mobile-item.active i {
+  color: #000 !important; /* L'icône devient noire si l'item est actif */
+}
+
+/* Avatar circulaire pour le profil */
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  background: #ffc700;
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* On personnalise la barre de scroll du menu si besoin */
+.offcanvas-body::-webkit-scrollbar {
+  width: 4px;
+}
+.offcanvas-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+/* Style pour le titre principal */
+.home-title {
+  font-family: "Unbounded", cursive;
+  color: var(--bs-primary-rgb);
+  line-height: 1.1;
+  z-index: 1;
+}
+
+/* Centrage et style des étoiles (after/before) */
+.home-title:before,
+.home-title:after {
+  display: inline-block;
+  scale: 0.8;
+}
+
+/* Bouton avec effet de soulèvement */
+.hover-lift {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* On s'assure que le container prend toute la hauteur */
+.min-vh-100 {
+  min-height: 100vh;
+}
+
+/* Amélioration de la police pour le paragraphe */
+.lead {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.animate-pulse {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/*Fonds dynamiques par catégorie*/ /* BUSINESS */
+.card.post-card.cat-business .post-description {
+  background: linear-gradient(135deg, #1e3c72, #2a5298) !important;
+}
+
+/* SPORT */
+.card.post-card.cat-sport .post-description {
+  background: linear-gradient(135deg, #11998e, #38ef7d) !important;
+}
+
+/* TECH */
+.card.post-card.cat-tech .post-description {
+  background: linear-gradient(135deg, #232526, #414345) !important;
+}
+
+/* LIFESTYLE */
+.card.post-card.cat-lifestyle .post-description {
+  background: linear-gradient(135deg, #ff9966, #ff5e62) !important;
+}
+
+/* SOCIAL */
+.card.post-card.cat-social .post-description {
+  background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045) !important;
+}
+
+/* DIVERTISSEMENT */
+.card.post-card.cat-entertainment .post-description {
+  background: linear-gradient(135deg, #6a11cb, #2575fc) !important;
+}
+
+/* SANTÉ */
+.card.post-card.cat-health .post-description {
+  background: linear-gradient(135deg, #ff0844, #ffb199) !important;
+}
+
+/* VOYAGE */
+.card.post-card.cat-travel .post-description {
+  background: linear-gradient(135deg, #2193b0, #6dd5ed) !important;
+}
+
+/* GAMING */
+.card.post-card.cat-gaming .post-description {
+  background: linear-gradient(135deg, #b06ab3, #4568dc) !important;
+}

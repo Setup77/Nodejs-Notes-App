@@ -1,0 +1,41 @@
+
+  body {
+      background-color: #f8f9fa;
+    }
+    .profile-card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 0px auto;
+      text-align: center;
+    }
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      border: 4px solid #0d6efd;
+    }
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+    }
+    .info-label {
+      font-weight: 600;
+      color: #333;
+    }
+    .edit-btn {
+      color: #0d6efd;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .edit-btn:hover {
+      color: #084298;
+    }
+

@@ -1,0 +1,106 @@
+<div class="container py-3 login-container d-flex justify-content-center align-items-center min-vh-100">
+  <main class="w-100" style="max-width: 500px;">
+
+    <!-- Bloc de Compte de Test -->
+    <div class="card border-0 bg-info bg-opacity-10 text-info-emphasis p-3 mb-4 rounded-4 shadow-sm text-center">
+      <div class="d-flex align-items-center justify-content-center gap-2 mb-1">
+        <span>💡</span> <strong class="text-uppercase tracking-wide small">Compte de démonstration</strong>
+      </div>
+      <div class="small">
+        <span class="fw-semibold">Email :</span> <code
+          class="text-dark bg-white px-2 py-0.5 rounded">gemini@gmail.com</code> <br>
+        <span class="fw-semibold">Mot de passe :</span> <code
+          class="text-dark bg-white px-2 py-0.5 rounded">azerty</code>
+      </div>
+    </div>
+
+
+    <div class="card bg-glass login-card shadow border-0 rounded-4">
+      <div class="card-body p-4 p-md-5">
+
+        <!-- ZONE D'INTERCEPTION DES NOTIFICATIONS FLASH GLOBALISÉES -->
+        <% if (registeredUser) { %>
+          <script>
+            console.log("✅ [Layout] Données d'inscription détectées :", "<%= registeredUser.firstName %>");
+
+            document.addEventListener('DOMContentLoaded', function () {
+              Swal.fire({
+                title: 'Inscription Réussie !',
+                text: "<%= registeredUser.firstName %> a été enregistré avec succès !",
+                icon: 'success',
+                timer: 6000,
+                confirmButtonText: 'Se connecter',
+                customClass: {
+                  confirmButton: 'btn btn-primary btn-lg'
+                },
+                buttonsStyling: false
+              });
+            });
+          </script>
+          <% } %>
+
+            <!-- Script d'alerte : Erreur d'authentification -->
+            <% if (typeof errors !=='undefined' && errors && errors.emailExist) { %>
+              <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                  const errorMessage = "<%= errors.emailExist %>";
+                  Swal.fire({
+                    title: 'Échec de connexion',
+                    text: errorMessage,
+                    icon: 'error',
+                    timer: 7000,
+                    confirmButtonText: 'Réessayer'
+                  });
+                });
+              </script>
+              <% } %>
+
+                <form action="/login" method="POST">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  <h1 class="mb-4 h3 text-center fw-bold text-primary">Connexion</h1>
+
+                  <!-- Champ Email -->
+                  <div class="mb-3">
+                    <label class="form-label fw-semibold" for="emailInput">Adresse Email</label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-light text-muted border-end-0"><i class="fa fa-envelope"></i>
+                        📧</span>
+                      <input type="email" name="email" id="emailInput" required
+                        class="form-control form-control-lg fs-6 border-start-0" placeholder="exemple@mail.com" />
+                    </div>
+                  </div>
+
+                  <!-- Champ Mot de passe -->
+                  <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <label class="form-label fw-semibold mb-0" for="passwordInput">Mot de passe</label>
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-text bg-light text-muted border-end-0"><i class="fa fa-lock"></i>
+                        🔒</span>
+                      <input type="password" name="password" id="passwordInput" required
+                        class="form-control form-control-lg fs-6 border-start-0" placeholder="••••••••" />
+                    </div>
+                  </div>
+
+                  <!-- Bouton de connexion -->
+                  <div class="text-center d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg fw-semibold shadow-sm mb-3">
+                      Se connecter
+                    </button>
+                    <p class="mb-0 text-muted">Je n'ai pas encore de compte ? <a href="/register"
+                        class="text-decoration-none fw-medium">Inscription</a></p>
+                  </div>
+                </form>
+
+      </div>
+    </div>
+
+    <!-- Lien de navigation externe -->
+    <div class="text-center mt-4">
+      <a href="/" class="btn btn-link text-decoration-none text-secondary">
+        <i class="fa fa-arrow-left me-1"></i> Retour à l'accueil Note.
+      </a>
+    </div>
+  </main>
+</div>
