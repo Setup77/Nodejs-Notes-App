@@ -1,0 +1,22 @@
+name: bootstrap_icons
+description: Bootstrap Icons for Flutter
+version: 1.11.3
+homepage: https://github.com/ricardodalarme/Bootstrap-Icons-Flutter
+
+environment:
+  sdk: ">=2.12.0 <4.0.0"
+  flutter: ">=0.1.2"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+flutter:
+  fonts:
+    - family: BootstrapIcons
+      fonts:
+        - asset: fonts/BootstrapIcons.ttf
+
+screenshots:
+  - description: "BootstrapIcons hero"
+    path: images/icons-hero.png

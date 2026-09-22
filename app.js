@@ -101,5 +101,5 @@ app.get("*", function (req, res) {
 
 // Lancement du Serveur
 app.listen(port, () => {
-  console.log(`Le serveur tourne sur le port : http://localhost:${port}`);
+  console.log(`Le serveur tourne sur le port : ${port}`);
 });
