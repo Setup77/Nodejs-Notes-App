@@ -4,17 +4,17 @@
   <div class="d-flex justify-content-between align-items-center mb-5">
     <div>
       <% if (anoteruser===2) { %>
-        <!-- 🏠 URL : http://localhost:5000/dashboard (Votre espace personnel) -->
+        <!-- 🏠 URL : /dashboard (Votre espace personnel) -->
         <h1 class="h3 fw-bold mb-1 text-dark">Bonjour, <%= userName %> 👋</h1>
         <p class="text-muted small mb-0">Organisez vos idées et vos tâches quotidiennes.</p>
 
         <% } else if (anoteruser===0) { %>
-          <!-- 🌍 URL : http://localhost:5000/notes-for-all-users (Flux communautaire) -->
+          <!-- 🌍 URL : /notes-for-all-users (Flux communautaire) -->
           <h1 class="h3 fw-bold mb-1 text-dark">Flux Communautaire 🌍</h1>
           <p class="text-muted small mb-0">Découvrez les notes et pensées publiques partagées par la communauté.</p>
 
           <% } else if (anoteruser===1) { %>
-            <!-- 👤 URL : http://localhost:5000/dashboard/notes-:id (Notes publiques d'un autre utilisateur) -->
+            <!-- 👤 URL : /dashboard/notes-:id (Notes publiques d'un autre utilisateur) -->
             <h1 class="h3 fw-bold mb-1 text-dark">
               Notes de <%= usernote ? usernote.firstName : 'l\' utilisateur' %> 👤
             </h1>
@@ -200,18 +200,18 @@
                       <img src="/img/nkw.png" alt="Aucune note" class="mb-4 opacity-50 hover-rotate" width="100">
 
                       <% if (anoteruser===2) { %>
-                        <!-- Cas : http://localhost:5000/dashboard (Utilisateur connecté) -->
+                        <!-- Cas : /dashboard (Utilisateur connecté) -->
                         <h3 class="fw-bold h4">Commencez à capturer vos pensées</h3>
                         <p class="text-muted">Votre espace est vide. Créez votre toute première note dès maintenant !
                         </p>
 
                         <% } else if (anoteruser===0) { %>
-                          <!-- Cas : http://localhost:5000/notes-for-all-users (Flux public) -->
+                          <!-- Cas : /notes-for-all-users (Flux public) -->
                           <h3 class="fw-bold h4">Aucune note publique disponible</h3>
                           <p class="text-muted">Il n'y a actuellement aucune note partagée par la communauté.</p>
 
                           <% } else if (anoteruser===1) { %>
-                            <!-- Cas : http://localhost:5000/dashboard/notes-id (Profil d'un autre utilisateur) -->
+                            <!-- Cas : /dashboard/notes-id (Profil d'un autre utilisateur) -->
                             <h3 class="fw-bold h4">Cet utilisateur n'a partagé aucune note</h3>
                             <p class="text-muted">Revenez plus tard pour découvrir ses futures publications publiques.
                             </p>
@@ -242,10 +242,10 @@
 </div>
 
 <!-- Vos scripts actuels -->
-<script src="http://localhost:5000/js/dashboard.js"></script>
-<script src="http://localhost:5000/js/notes.js"></script>
-<script src="http://localhost:5000/js/noteUpdate.js"></script>
-<script src="http://localhost:5000/js/paginationDashboard.js"></script>
+<script src="/js/dashboard.js"></script>
+<script src="/js/notes.js"></script>
+<script src="/js/noteUpdate.js"></script>
+<script src="/js/paginationDashboard.js"></script>
 
 <!-- ✨ AJOUT : Déclenchement automatique de la pagination graphique -->
 <script>
